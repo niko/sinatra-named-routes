@@ -1,0 +1,36 @@
+= sinatra-named-routes
+
+This gem adds the possibility to name the routes and have corresponding path methods generated.
+
+I  don't fear the URLs (http://adam.blog.heroku.com/past/2008/8/12/dont_fear_the_urls/) and really like the route-definition in Sinatra for it's straight frowardness and flexibility. I'm perfectly happy with Sinatra route recognition. But URL-generation spread all over the controllers and views feels somehow un-DRY to me (maybe I'm just spoiled by Rails).
+
+This gem adds a #named method to Sinatra:
+
+    named :get, :index, '/' do; end
+
+or
+
+    named :get, :some_thing, '/some_thing/:param' do; end
+
+Using #named generates _path a method which tries to fill in given parameters correctly:
+
+    some_thing_path(@fishy.id)
+    
+    # => '/some_thing/23'
+
+In addition to the named route with a certain method you can just use :route without a block to define a name for more than one route:
+
+    named :route, :event, '/events'
+    get 'events/:id' do
+      …
+    post '/events/:id' do
+      …
+    delete '/events:id' do
+      …
+  
+
+It's a fairly naive implementation of that feature but I tried to keep it as lean as possible. Read the tests for complete description of it's behaviour.
+
+== Copyright
+
+Copyright (c) 2009 Niko Dittmann. See LICENSE for details.
